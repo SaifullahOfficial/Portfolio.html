@@ -64,8 +64,8 @@ const artCatalog = {
       status: "available",
       featured: true,
       description: "Soft textural palette knife work in muted blush, dusty terracotta, and bone white. Captures the serenity of fleeting cherished memories.",
-      image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1000&q=80",
-      roomPreviewImage: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1000&q=80",
+      image: "https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?auto=format&fit=crop&w=1000&q=80",
+      roomPreviewImage: "https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?auto=format&fit=crop&w=1000&q=80",
       framingOptions: ["Unframed Gallery Wrapped", "Raw Maple Wood Float Frame (+£70)"],
       isOriginal: true
     },
@@ -174,7 +174,7 @@ const artCatalog = {
       },
       paper: "Somerset Velvet Fine Art 300gsm",
       finish: "Soft Texture Matte",
-      image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1000&q=80",
+      image: "https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?auto=format&fit=crop&w=1000&q=80",
       bestseller: false,
       description: "Warm blush tones and organic gestures that evoke a peaceful sanctuary within any room."
     },

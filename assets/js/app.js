@@ -172,7 +172,7 @@ function renderOriginals() {
     return `
       <div class="art-card overflow-hidden flex flex-col group">
         <div class="image-container relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="openArtworkModal('${art.id}', 'original')">
-          <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover">
+          <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'">
           
           <div class="absolute top-3 left-3 z-10">
             ${statusBadge}
@@ -255,7 +255,7 @@ function renderPrints() {
     return `
       <div class="art-card overflow-hidden flex flex-col group">
         <div class="image-container relative aspect-[4/5] overflow-hidden cursor-pointer" onclick="openArtworkModal('${print.id}', 'print')">
-          <img src="${print.image}" alt="${print.title}" class="w-full h-full object-cover">
+          <img src="${print.image}" alt="${print.title}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'">
           
           <div class="absolute top-3 left-3 z-10">
             ${print.bestseller ? '<span class="badge-bestseller">Archival Favorite</span>' : '<span class="badge-original">Fine Art Giclée</span>'}
@@ -324,7 +324,7 @@ function renderBookmarks() {
     return `
       <div class="art-card overflow-hidden flex flex-col group">
         <div class="image-container relative aspect-[3/4] overflow-hidden cursor-pointer" onclick="openArtworkModal('${bm.id}', 'bookmark')">
-          <img src="${bm.image}" alt="${bm.title}" class="w-full h-full object-cover">
+          <img src="${bm.image}" alt="${bm.title}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'">
           
           <div class="absolute top-3 left-3 z-10">
             <span class="badge-bestseller">${bm.badge}</span>
@@ -813,7 +813,7 @@ function renderModalDetails(art) {
   container.innerHTML = `
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
       <div class="relative rounded-2xl overflow-hidden bg-stone-100 aspect-square max-w-sm mx-auto w-full">
-        <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover">
+        <img src="${art.image}" alt="${art.title}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'">
       </div>
 
       <div class="flex flex-col">
