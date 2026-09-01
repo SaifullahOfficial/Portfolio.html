@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mishi's Artwork | Original Paintings & Fine Art Prints</title>
+  <meta name="description" content="Official portfolio and fine art shop for UK artist Mishi. Discover original paintings, archival giclée prints, hand-painted bookmarks, and bespoke commissions.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            linen: '#FAF7F2',
+            alabaster: '#F4EFEA',
+            blush: {
+              DEFAULT: '#E8C8C2',
+              light: '#F7ECE9',
+              dark: '#C99C94'
+            },
+            sage: {
+              DEFAULT: '#8FA387',
+              light: '#E5ECE3',
+              dark: '#5B7252'
+            },
+            charcoal: {
+              DEFAULT: '#2C2825',
+              light: '#4A443E',
+              muted: '#6B635B'
+            },
+            gold: {
+              DEFAULT: '#C5A880',
+              light: '#F2E9DE'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            display: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            script: ['"Alex Brush"', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#FAF7F2] text-[#2C2825] antialiased selection:bg-[#E8C8C2] selection:text-[#2C2825]">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Announcement Bar -->
+  <aside aria-label="Announcement" class="bg-[#2C2825] text-stone-200 text-xs py-2 px-4 border-b border-stone-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-[#8FA387] animate-pulse"></span>
+        <p class="font-sans tracking-wide">✨ Complimentary UK Tracked Delivery on orders over £50 • Worldwide Courier Available</p>
+      </div>
+
+      <div class="flex items-center gap-4 text-stone-300">
+        <span class="hidden md:inline text-[11px] uppercase tracking-wider text-stone-400">Currency:</span>
+        <div class="flex items-center bg-stone-800/80 rounded-full p-0.5 border border-stone-700">
+          <button onclick="setCurrency('GBP')" data-currency="GBP" class="currency-select-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-stone-800 text-white transition-all">£ GBP</button>
+          <button onclick="setCurrency('USD')" data-currency="USD" class="currency-select-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-stone-400 hover:text-white transition-all">$ USD</button>
+          <button onclick="setCurrency('EUR')" data-currency="EUR" class="currency-select-btn px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-stone-400 hover:text-white transition-all">€ EUR</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Navigation Header -->
+  <header class="sticky top-0 z-40 glass-panel transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Left: Desktop Menu Links -->
+        <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-[#4A443E]">
+          <a href="#originals" class="hover:text-[#5B7252] transition-colors">Originals</a>
+          
+          <!-- Prints Dropdown -->
+          <div class="relative group py-4">
+            <a href="#prints" class="flex items-center gap-1 hover:text-[#5B7252] transition-colors">
+              Art Prints
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 opacity-60 group-hover:rotate-180 transition-transform"></i>
+            </a>
+            <div class="absolute top-full left-0 w-56 bg-white rounded-2xl shadow-xl border border-stone-100 p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+              <button onclick="setPrintFilter('all'); scrollToSection('prints')" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-[#FAF7F2] text-xs font-medium text-stone-700 hover:text-[#5B7252]">All Archival Prints</button>
+              <button onclick="setPrintFilter('culture'); scrollToSection('prints')" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-[#FAF7F2] text-xs font-medium text-stone-700 hover:text-[#5B7252]">Culture & Heritage</button>
+              <button onclick="setPrintFilter('emotional'); scrollToSection('prints')" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-[#FAF7F2] text-xs font-medium text-stone-700 hover:text-[#5B7252]">Emotional Identity</button>
+              <button onclick="setPrintFilter('botanical'); scrollToSection('prints')" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-[#FAF7F2] text-xs font-medium text-stone-700 hover:text-[#5B7252]">Botanical & Floral</button>
+            </div>
+          </div>
+
+          <a href="#bookmarks" class="hover:text-[#5B7252] transition-colors">Bookmarks</a>
+          <a href="#commissions" class="hover:text-[#5B7252] transition-colors text-[#5B7252]">Commissions</a>
+        </nav>
+
+        <!-- Mobile Menu Toggle Button -->
+        <div class="flex lg:hidden items-center">
+          <button onclick="toggleMobileMenu()" class="p-2 rounded-full text-stone-800 hover:bg-stone-100">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <!-- Center: Brand Logo -->
+        <a href="#" class="flex flex-col items-center justify-center text-center group">
+          <div class="flex items-center gap-2.5">
+            <img src="assets/images/logo.png" alt="Mishi's Artwork Logo" class="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'">
+            <div class="flex flex-col items-start text-left">
+              <span class="font-script text-3xl leading-none text-stone-900 tracking-wide">Mishi's</span>
+              <span class="font-serif text-[11px] tracking-[0.25em] uppercase font-semibold text-stone-700 mt-0.5">Artwork</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Right: Actions & Secondary Links -->
+        <div class="flex items-center gap-4 sm:gap-6 text-xs font-semibold uppercase tracking-widest text-[#4A443E]">
+          <a href="#about" class="hidden xl:block hover:text-[#5B7252] transition-colors">About</a>
+          <button onclick="openArtCareModal()" class="hidden xl:block hover:text-[#5B7252] transition-colors text-stone-500">Care Guide</button>
+
+          <!-- Search Button -->
+          <button onclick="openSearchModal()" class="p-2 rounded-full text-stone-800 hover:bg-stone-100 hover:text-[#5B7252] transition-all" title="Search artworks">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </button>
+
+          <!-- Cart Drawer Button -->
+          <button onclick="openCartDrawer()" class="relative p-2.5 rounded-full bg-stone-900 text-white hover:bg-[#5B7252] transition-all shadow-sm flex items-center gap-2">
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            <span class="hidden sm:inline text-[11px] font-bold tracking-wider">Bag</span>
+            <span class="cart-count-badge absolute -top-1 -right-1 w-5 h-5 bg-[#E8C8C2] text-stone-900 font-sans font-bold text-[10px] rounded-full flex items-center justify-center border-2 border-white shadow-sm" style="display: none;">0</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu (Inspired by Faye Greenman Reference) -->
+  <div id="mobile-menu-backdrop" onclick="toggleMobileMenu()" class="fixed inset-0 z-50 drawer-backdrop opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  
+  <div id="mobile-menu-drawer" class="fixed top-0 left-0 bottom-0 w-5/6 max-w-sm bg-[#FAF7F2] z-50 shadow-2xl transform -translate-x-full transition-transform duration-400 ease-out flex flex-col p-6 overflow-y-auto">
+    <!-- Header with Close Button -->
+    <div class="flex items-center justify-between pb-6 border-b border-stone-200">
+      <div class="flex items-center gap-2">
+        <img src="assets/images/logo.png" alt="Mishi Logo" class="h-9 w-auto" onerror="this.style.display='none'">
+        <span class="font-script text-2xl text-stone-900">Mishi's Artwork</span>
+      </div>
+      <button onclick="toggleMobileMenu()" class="p-2 text-stone-600 hover:text-stone-900">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Navigation Accordion -->
+    <div class="py-6 space-y-1 flex-1">
+      
+      <!-- About Accordion -->
+      <div>
+        <button onclick="toggleMobileAccordion('about')" class="mobile-nav-link w-full text-left">
+          <span>About</span>
+          <span id="mobile-icon-about" class="text-xl font-serif text-stone-400">+</span>
+        </button>
+        <div id="mobile-acc-about" class="hidden pl-4 py-2 space-y-2">
+          <a href="#about" onclick="toggleMobileMenu()" class="mobile-subnav-link">The Artist & Philosophy</a>
+          <a href="#reviews" onclick="toggleMobileMenu()" class="mobile-subnav-link">Collector Reviews</a>
+          <button onclick="toggleMobileMenu(); openArtCareModal()" class="mobile-subnav-link text-left w-full">How To Care For Your Art</button>
+        </div>
+      </div>
+
+      <!-- Originals Accordion -->
+      <div>
+        <button onclick="toggleMobileAccordion('originals')" class="mobile-nav-link w-full text-left">
+          <span>Originals</span>
+          <span id="mobile-icon-originals" class="text-xl font-serif text-stone-400">+</span>
+        </button>
+        <div id="mobile-acc-originals" class="hidden pl-4 py-2 space-y-2">
+          <button onclick="setOriginalFilter('all'); scrollToSection('originals'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">Selected Works (All)</button>
+          <button onclick="setOriginalFilter('culture'); scrollToSection('originals'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">Culture & Heritage</button>
+          <button onclick="setOriginalFilter('emotional'); scrollToSection('originals'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">Emotional Identity</button>
+          <button onclick="setOriginalFilter('botanical'); scrollToSection('originals'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">Botanical Studies</button>
+        </div>
+      </div>
+
+      <!-- Fine Art Prints Accordion -->
+      <div>
+        <button onclick="toggleMobileAccordion('prints')" class="mobile-nav-link w-full text-left">
+          <span>Fine Art Prints</span>
+          <span id="mobile-icon-prints" class="text-xl font-serif text-stone-400">+</span>
+        </button>
+        <div id="mobile-acc-prints" class="hidden pl-4 py-2 space-y-2">
+          <button onclick="setPrintFilter('all'); scrollToSection('prints'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">All Archival Prints</button>
+          <button onclick="setPrintFilter('culture'); scrollToSection('prints'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">Culture & Heritage</button>
+          <button onclick="setPrintFilter('emotional'); scrollToSection('prints'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">Emotional Identity</button>
+          <button onclick="setPrintFilter('botanical'); scrollToSection('prints'); toggleMobileMenu()" class="mobile-subnav-link text-left w-full">Botanical & Floral</button>
+        </div>
+      </div>
+
+      <!-- Bookmarks Link -->
+      <a href="#bookmarks" onclick="toggleMobileMenu()" class="mobile-nav-link">
+        <span>Bookmarks & Keepsakes</span>
+        <i data-lucide="arrow-right" class="w-4 h-4 text-stone-400"></i>
+      </a>
+
+      <!-- Commissions Link -->
+      <a href="#commissions" onclick="toggleMobileMenu()" class="mobile-nav-link text-[#5B7252]">
+        <span>Bespoke Commissions</span>
+        <span class="text-[10px] uppercase font-bold tracking-widest bg-emerald-100 text-[#5B7252] px-2 py-0.5 rounded-full">Slots Open</span>
+      </a>
+
+      <!-- Instagram Link -->
+      <a href="https://www.instagram.com/mishisart.work" target="_blank" class="mobile-nav-link">
+        <span class="flex items-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> @mishisart.work</span>
+        <i data-lucide="arrow-up-right" class="w-4 h-4 text-stone-400"></i>
+      </a>
+
+    </div>
+
+    <!-- Mobile Drawer Footer -->
+    <div class="pt-6 border-t border-stone-200 space-y-4">
+      <div class="flex items-center justify-between text-xs text-stone-600">
+        <span>Currency</span>
+        <div class="flex gap-1">
+          <button onclick="setCurrency('GBP')" class="px-2 py-1 bg-stone-200 rounded text-stone-900 font-bold">£ GBP</button>
+          <button onclick="setCurrency('USD')" class="px-2 py-1 bg-stone-100 rounded text-stone-700">USD</button>
+          <button onclick="setCurrency('EUR')" class="px-2 py-1 bg-stone-100 rounded text-stone-700">EUR</button>
+        </div>
+      </div>
+      <p class="text-[11px] text-stone-400 text-center font-sans">mishisartwork.com • United Kingdom</p>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative pt-8 pb-16 md:pt-16 md:pb-24 overflow-hidden">
+    <!-- Soft Decorative Blurs -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#E8C8C2]/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/3 right-10 w-80 h-80 bg-[#8FA387]/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left: Editorial Typography & Value Props -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F2] border border-[#DECFC0] shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[#8FA387]"></span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-stone-700">UK Fine Art Studio • Mishi</span>
+          </div>
+
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-normal text-stone-900 leading-[1.1]">
+            Art as an anchor for <span class="italic font-normal text-[#5B7252]">memory</span>, heritage, and quiet emotion.
+          </h1>
+
+          <p class="text-base sm:text-lg text-stone-600 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans font-light">
+            Original paintings on Belgian linen and museum-grade Giclée prints on heavy cotton rag. Created by UK artist Mishi, blending delicate botanical stillness with introspective storytelling.
+          </p>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="#originals" class="btn-luxury-primary">
+              <span>Explore Originals</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+
+            <a href="#prints" class="btn-luxury-outline">
+              <span>Shop Archival Prints</span>
+            </a>
+
+            <a href="#commissions" class="btn-luxury-blush">
+              <span>Request Commission</span>
+            </a>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="pt-8 border-t border-stone-200 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 text-left">
+            <div>
+              <div class="font-serif text-lg font-semibold text-stone-900">100% Cotton</div>
+              <div class="text-xs text-stone-500 font-sans">Hahnemühle 310gsm</div>
+            </div>
+            <div>
+              <div class="font-serif text-lg font-semibold text-stone-900">Hand-Signed</div>
+              <div class="text-xs text-stone-500 font-sans">With Certificate</div>
+            </div>
+            <div>
+              <div class="font-serif text-lg font-semibold text-stone-900">Eco Dispatched</div>
+              <div class="text-xs text-stone-500 font-sans">Plastic-free UK shipping</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Visual Hero Artwork Card & Room Teaser -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-md lg:max-w-none">
+            
+            <!-- Main Hero Frame -->
+            <div class="art-card rounded-3xl p-4 bg-white shadow-2xl relative z-10 transform -rotate-1 hover:rotate-0 transition-transform duration-500">
+              <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-stone-100">
+                <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80" 
+                     alt="Featured Artwork" class="w-full h-full object-cover">
+                
+                <div class="absolute top-4 left-4">
+                  <span class="badge-original">Featured Original</span>
+                </div>
+
+                <button onclick="openRoomSimulator('orig-1', 'original')" 
+                        class="absolute bottom-4 right-4 bg-stone-900/90 hover:bg-stone-900 text-white text-xs py-2 px-4 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all shadow-lg uppercase tracking-wider font-semibold font-sans">
+                  <i data-lucide="layout" class="w-3.5 h-3.5"></i>
+                  View on Wall
+                </button>
+              </div>
+
+              <div class="p-4 flex items-center justify-between">
+                <div>
+                  <h3 class="font-serif text-xl font-medium text-stone-900">Whispers of the Courtyard</h3>
+                  <p class="text-xs text-stone-500">Oil & 24k Gold Leaf on Linen • 40 x 50 cm</p>
+                </div>
+                <button onclick="openArtworkModal('orig-1', 'original')" class="p-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 transition-colors">
+                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Floating Mini Badge -->
+            <div class="absolute -bottom-6 -left-6 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-stone-100 hidden sm:flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-[#E8C8C2]/30 flex items-center justify-center text-[#C99C94]">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-xs font-semibold text-stone-900 font-sans">Autumn Drop Live</div>
+                <div class="text-[11px] text-stone-500 font-sans">6 Originals & 4 Archival Editions</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Gateway Highlights -->
+  <section class="py-12 bg-[#F4EFEA] border-y border-[#EBE3DA]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        
+        <!-- Card 1: Originals -->
+        <a href="#originals" class="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-white border border-[#DECFC0] shadow-sm flex flex-col justify-end p-6 hover:shadow-lg transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=600&q=80" alt="Originals" class="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="text-[11px] font-bold uppercase tracking-widest text-[#E8C8C2]">1-of-1 Collection</span>
+            <h3 class="font-serif text-2xl font-medium mt-0.5">Originals</h3>
+            <span class="inline-flex items-center gap-1 text-xs font-sans text-stone-300 mt-2 group-hover:translate-x-1 transition-transform">Explore Paintings <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+          </div>
+        </a>
+
+        <!-- Card 2: Prints -->
+        <a href="#prints" class="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-white border border-[#DECFC0] shadow-sm flex flex-col justify-end p-6 hover:shadow-lg transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80" alt="Prints" class="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="text-[11px] font-bold uppercase tracking-widest text-[#8FA387]">Archival Giclée</span>
+            <h3 class="font-serif text-2xl font-medium mt-0.5">Fine Art Prints</h3>
+            <span class="inline-flex items-center gap-1 text-xs font-sans text-stone-300 mt-2 group-hover:translate-x-1 transition-transform">Browse Categories <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+          </div>
+        </a>
+
+        <!-- Card 3: Bookmarks -->
+        <a href="#bookmarks" class="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-white border border-[#DECFC0] shadow-sm flex flex-col justify-end p-6 hover:shadow-lg transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80" alt="Bookmarks" class="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="text-[11px] font-bold uppercase tracking-widest text-[#E8C8C2]">Handmade & Mini</span>
+            <h3 class="font-serif text-2xl font-medium mt-0.5">Bookmarks</h3>
+            <span class="inline-flex items-center gap-1 text-xs font-sans text-stone-300 mt-2 group-hover:translate-x-1 transition-transform">Originals & Sets <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+          </div>
+        </a>
+
+        <!-- Card 4: Commissions -->
+        <a href="#commissions" class="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-white border border-[#DECFC0] shadow-sm flex flex-col justify-end p-6 hover:shadow-lg transition-all duration-300">
+          <img src="https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=600&q=80" alt="Commissions" class="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent"></div>
+          <div class="relative z-10 text-white">
+            <span class="text-[11px] font-bold uppercase tracking-widest text-emerald-300">Custom Artworks</span>
+            <h3 class="font-serif text-2xl font-medium mt-0.5">Commissions</h3>
+            <span class="inline-flex items-center gap-1 text-xs font-sans text-stone-300 mt-2 group-hover:translate-x-1 transition-transform">View Pricing Guide <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: Originals Gallery -->
+  <section id="originals" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-stone-200">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-[#5B7252]"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#5B7252]">Original Works</span>
+        </div>
+        <h2 class="font-serif text-4xl sm:text-5xl font-medium text-stone-900">Original Paintings</h2>
+        <p class="text-stone-600 text-sm mt-2 max-w-xl font-sans">
+          One-of-a-kind fine art pieces painted on Belgian linen and handmade deckled cotton. Accompanied by a signed Certificate of Authenticity.
+        </p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" id="original-filter-tabs">
+        <button onclick="setOriginalFilter('all')" data-filter="all" class="filter-tab active">All Works</button>
+        <button onclick="setOriginalFilter('available')" data-filter="available" class="filter-tab">Available Now</button>
+        <button onclick="setOriginalFilter('culture')" data-filter="culture" class="filter-tab">Culture & Heritage</button>
+        <button onclick="setOriginalFilter('emotional')" data-filter="emotional" class="filter-tab">Emotional Identity</button>
+        <button onclick="setOriginalFilter('botanical')" data-filter="botanical" class="filter-tab">Botanicals</button>
+      </div>
+    </div>
+
+    <!-- Originals Dynamic Grid -->
+    <div id="originals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Populated via app.js -->
+    </div>
+  </section>
+
+  <!-- SECTION 2: Fine Art Prints Collection -->
+  <section id="prints" class="py-20 bg-[#F4EFEA] border-t border-[#EBE3DA]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-[#DECFC0]">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-2 h-2 rounded-full bg-[#C99C94]"></span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#C99C94]">Museum-Quality Giclée</span>
+          </div>
+          <h2 class="font-serif text-4xl sm:text-5xl font-medium text-stone-900">Fine Art Prints</h2>
+          <p class="text-stone-600 text-sm mt-2 max-w-xl font-sans">
+            Archival Giclée reproductions on 310gsm Hahnemühle cotton paper. Guaranteed 100+ year lightfastness.
+          </p>
+        </div>
+
+        <!-- Print Categories Tabs (Culture, Emotional Identity, Botanicals, All) -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" id="print-filter-tabs">
+          <button onclick="setPrintFilter('all')" data-filter="all" class="filter-tab active">All Prints</button>
+          <button onclick="setPrintFilter('culture')" data-filter="culture" class="filter-tab">Culture & Heritage</button>
+          <button onclick="setPrintFilter('emotional')" data-filter="emotional" class="filter-tab">Emotional Identity</button>
+          <button onclick="setPrintFilter('botanical')" data-filter="botanical" class="filter-tab">Botanical & Floral</button>
+        </div>
+      </div>
+
+      <!-- Prints Dynamic Grid -->
+      <div id="prints-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Populated via app.js -->
+      </div>
+
+      <!-- Print Paper Specs Banner -->
+      <div class="mt-16 bg-white rounded-3xl p-8 border border-stone-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-[#E8C8C2]/20 flex items-center justify-center text-[#C99C94] shrink-0 mt-1">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-serif text-2xl font-medium text-stone-900">Archival Quality Promise</h4>
+            <p class="text-sm text-stone-600 max-w-xl mt-1 font-sans">
+              Every print is produced in England using 12-color archival pigment inks on acid-free German cotton rag. Each piece is individually embossed with Mishi's studio seal.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-3 shrink-0">
+          <button onclick="openArtCareModal()" class="btn-luxury-outline !text-xs">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Read Care Guide
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: Bookmarks & Literary Keepsakes -->
+  <section id="bookmarks" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-stone-200">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-[#8FA387]"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#8FA387]">Literary Art & Keepsakes</span>
+        </div>
+        <h2 class="font-serif text-4xl sm:text-5xl font-medium text-stone-900">Original & Printed Bookmarks</h2>
+        <p class="text-stone-600 text-sm mt-2 max-w-xl font-sans">
+          Cherished miniature artworks for collectors and booklovers. Choose between unique 1-of-1 hand-painted deckled originals or luxury archival print sets.
+        </p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" id="bookmark-filter-tabs">
+        <button onclick="setBookmarkFilter('all')" data-filter="all" class="filter-tab active">All Bookmarks</button>
+        <button onclick="setBookmarkFilter('original')" data-filter="original" class="filter-tab">Hand-Painted (1-of-1)</button>
+        <button onclick="setBookmarkFilter('print')" data-filter="print" class="filter-tab">Archival Print Sets</button>
+      </div>
+    </div>
+
+    <!-- Bookmarks Grid -->
+    <div id="bookmarks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Populated via app.js -->
+    </div>
+  </section>
+
+  <!-- SECTION 4: Bespoke Commissions Hub (Inspired by artsbytrinity.com) -->
+  <section id="commissions" class="py-20 bg-[#FAF7F2] border-t border-[#EBE3DA] relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Commission Header with Status Badge -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold tracking-wider uppercase mb-4 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <span>Currently Accepting 3 Slots for Autumn / Winter</span>
+        </div>
+
+        <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium text-stone-900">Request a Bespoke Commission</h2>
+        <p class="text-stone-600 text-base mt-4 font-sans leading-relaxed">
+          Collaborate directly with Mishi to bring a meaningful architectural facade, beloved family botanical memory, or deeply personal emotional canvas to life.
+        </p>
+      </div>
+
+      <!-- Commission Process Steps (4 Stages) -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+        
+        <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm relative">
+          <span class="process-step-num">01</span>
+          <h3 class="font-serif text-xl font-medium text-stone-900 mt-2 mb-1">Vision & Reference</h3>
+          <p class="text-xs text-stone-600 leading-relaxed font-sans">Share your cherished photos, color palettes, emotional themes, or architectural memories.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm relative">
+          <span class="process-step-num">02</span>
+          <h3 class="font-serif text-xl font-medium text-stone-900 mt-2 mb-1">Sketch Approval</h3>
+          <p class="text-xs text-stone-600 leading-relaxed font-sans">Mishi drafts composition and color harmony studies for your feedback and approval before painting.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm relative">
+          <span class="process-step-num">03</span>
+          <h3 class="font-serif text-xl font-medium text-stone-900 mt-2 mb-1">Studio Creation</h3>
+          <p class="text-xs text-stone-600 leading-relaxed font-sans">Painted layer by layer with raw pigments, oils, and 24k gold leaf over 2-3 weeks with progress photo updates.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm relative">
+          <span class="process-step-num">04</span>
+          <h3 class="font-serif text-xl font-medium text-stone-900 mt-2 mb-1">Varnish & Delivery</h3>
+          <p class="text-xs text-stone-600 leading-relaxed font-sans">UV varnished, gift-packaged with Certificate of Authenticity, and dispatched via tracked courier.</p>
+        </div>
+
+      </div>
+
+      <!-- Commission Pricing & Sizing Grid -->
+      <div id="commissions-tiers-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <!-- Populated via app.js -->
+      </div>
+
+      <!-- Direct Commission Form Trigger Button -->
+      <div class="text-center">
+        <button onclick="openCommissionModal()" class="btn-luxury-primary !py-4 !px-8 text-sm">
+          <i data-lucide="edit-3" class="w-4 h-4"></i> Start Your Commission Inquiry
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5: About the Artist -->
+  <section id="about" class="py-20 bg-[#F4EFEA] border-t border-[#EBE3DA]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Artist Photo / Studio Aesthetics -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-3xl overflow-hidden shadow-xl border-4 border-white aspect-[4/5]">
+            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1000&q=80" 
+                 alt="Mishi in Studio" class="w-full h-full object-cover">
+            
+            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/90 backdrop-blur-md border border-stone-100 text-center">
+              <span class="font-script text-3xl text-stone-900">Mishi</span>
+              <p class="text-[11px] uppercase tracking-widest text-stone-500 font-sans mt-0.5">Painter & Visual Storyteller • UK</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artist Story -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#8FA387]"></span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#8FA387]">The Artist Behind the Canvas</span>
+          </div>
+
+          <h2 class="font-serif text-4xl sm:text-5xl font-medium text-stone-900 leading-tight">
+            "Art is how we tether fleeting emotions to a permanent canvas."
+          </h2>
+
+          <div class="space-y-4 text-stone-600 font-sans text-sm sm:text-base leading-relaxed">
+            <p>
+              Based in the United Kingdom, Mishi creates delicate, atmospheric fine art combining traditional watercolor, heavy gouache, oils, and genuine gold leaf. Her work draws inspiration from cultural architecture, introspective emotional landscapes, and the untamed botanicals of the English countryside.
+            </p>
+            <p>
+              Every original painting and limited archival print is treated as a lasting heirloom. From hand-torn deckled edges to museum-grade archival pigments, each piece is crafted to bring stillness, warmth, and enduring beauty into your living space.
+            </p>
+          </div>
+
+          <!-- Studio Principles Checklist -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+            <div class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-[#8FA387] shrink-0 mt-1"></i>
+              <span class="text-xs text-stone-700 font-sans font-medium">100% Acid-Free Cotton Rag Papers</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-[#8FA387] shrink-0 mt-1"></i>
+              <span class="text-xs text-stone-700 font-sans font-medium">Plastic-Free UK Recyclable Packaging</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-[#8FA387] shrink-0 mt-1"></i>
+              <span class="text-xs text-stone-700 font-sans font-medium">Signed Certificate with Every Original</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-[#8FA387] shrink-0 mt-1"></i>
+              <span class="text-xs text-stone-700 font-sans font-medium">Archival Inks with 100+ Year Longevity</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: Collector Reviews & Testimonials -->
+  <section id="reviews" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+        <span class="text-xs font-semibold uppercase tracking-widest text-stone-600">Collector Testimonials</span>
+      </div>
+      <h2 class="font-serif text-4xl sm:text-5xl font-medium text-stone-900">Voices of Our Collectors</h2>
+      <p class="text-stone-600 text-sm mt-3 font-sans">Cherished in homes across the United Kingdom and internationally.</p>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div id="reviews-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Populated via app.js -->
+    </div>
+  </section>
+
+  <!-- SECTION 7: Instagram Feed Showcase (@mishisart.work) -->
+  <section id="instagram" class="py-16 bg-[#FAF7F2] border-t border-[#EBE3DA]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
+        <div>
+          <span class="text-xs uppercase font-semibold tracking-widest text-[#8FA387]">Behind the Scenes</span>
+          <h2 class="font-serif text-3xl font-medium text-stone-900 mt-0.5">Follow the Studio Journey</h2>
+        </div>
+        <a href="https://www.instagram.com/mishisart.work" target="_blank" class="btn-luxury-outline !py-2.5 !px-5 !text-xs">
+          <i data-lucide="instagram" class="w-4 h-4"></i> @mishisart.work
+        </a>
+      </div>
+
+      <!-- Instagram Grid -->
+      <div id="instagram-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Populated via app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Newsletter Section (Collector's Circle) -->
+  <section class="py-20 bg-[#2C2825] text-white relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+      <span class="text-xs font-semibold uppercase tracking-widest text-[#E8C8C2]">The Collector's Circle</span>
+      <h2 class="font-serif text-4xl sm:text-5xl font-medium mt-2 mb-4">Receive 10% Off Your First Piece</h2>
+      <p class="text-stone-300 text-sm sm:text-base max-w-lg mx-auto mb-8 font-sans font-light">
+        Subscribe to receive early VIP access to new original painting drops, private studio exhibitions, and bespoke commission openings.
+      </p>
+
+      <form onsubmit="handleNewsletter(event)" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+        <input type="email" id="newsletter-email" required placeholder="Enter your email address..." 
+               class="flex-1 px-5 py-3.5 rounded-full bg-stone-800 text-white placeholder-stone-400 text-sm border border-stone-700 focus:outline-none focus:border-[#E8C8C2] font-sans">
+        <button type="submit" class="btn-luxury-blush !py-3.5 !px-6 whitespace-nowrap">
+          Join Circle
+        </button>
+      </form>
+      <p class="text-[11px] text-stone-400 mt-4 font-sans">We respect your privacy. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#FAF7F2] border-t border-[#EBE3DA] pt-16 pb-12 text-stone-600 font-sans text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#DECFC0]">
+        
+        <!-- Col 1: Brand & Bio -->
+        <div class="md:col-span-4 space-y-4">
+          <div class="flex items-center gap-2">
+            <img src="assets/images/logo.png" alt="Mishi's Artwork Logo" class="h-10 w-auto" onerror="this.style.display='none'">
+            <span class="font-script text-2xl text-stone-900">Mishi's Artwork</span>
+          </div>
+          <p class="text-stone-600 leading-relaxed max-w-sm">
+            Fine art studio based in the United Kingdom. Creating original paintings, museum-grade archival prints, and custom commissions.
+          </p>
+          <div class="flex items-center gap-4 text-stone-700 pt-2">
+            <a href="https://www.instagram.com/mishisart.work" target="_blank" class="p-2 rounded-full bg-white border border-stone-200 hover:text-[#5B7252] shadow-sm"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="mailto:hello@mishisartwork.com" class="p-2 rounded-full bg-white border border-stone-200 hover:text-[#5B7252] shadow-sm"><i data-lucide="mail" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="md:col-span-3 space-y-3">
+          <h4 class="font-serif text-base font-semibold text-stone-900 uppercase tracking-wider">Collections</h4>
+          <ul class="space-y-2">
+            <li><a href="#originals" class="hover:text-stone-900 transition-colors">Original Paintings</a></li>
+            <li><button onclick="setPrintFilter('culture'); scrollToSection('prints')" class="hover:text-stone-900 transition-colors">Culture & Heritage Prints</button></li>
+            <li><button onclick="setPrintFilter('emotional'); scrollToSection('prints')" class="hover:text-stone-900 transition-colors">Emotional Identity Prints</button></li>
+            <li><button onclick="setPrintFilter('botanical'); scrollToSection('prints')" class="hover:text-stone-900 transition-colors">Botanical & Floral Studies</button></li>
+            <li><a href="#bookmarks" class="hover:text-stone-900 transition-colors">Hand-Painted Bookmarks</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Collector Services -->
+        <div class="md:col-span-3 space-y-3">
+          <h4 class="font-serif text-base font-semibold text-stone-900 uppercase tracking-wider">Collector Services</h4>
+          <ul class="space-y-2">
+            <li><a href="#commissions" class="hover:text-stone-900 transition-colors">Bespoke Commissions</a></li>
+            <li><button onclick="openArtCareModal()" class="hover:text-stone-900 transition-colors text-left">How To Care For Your Art</button></li>
+            <li><a href="#about" class="hover:text-stone-900 transition-colors">About Mishi</a></li>
+            <li><a href="#reviews" class="hover:text-stone-900 transition-colors">Collector Reviews</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Studio Info -->
+        <div class="md:col-span-2 space-y-3">
+          <h4 class="font-serif text-base font-semibold text-stone-900 uppercase tracking-wider">Studio</h4>
+          <p class="leading-relaxed">
+            London & Manchester<br>United Kingdom<br>
+            <span class="text-[#8FA387] font-semibold">mishisartwork.com</span>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Copyright & Payment Methods -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-stone-500">
+        <p>© 2026 Mishi's Artwork (mishisartwork.com). All rights reserved.</p>
+        
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded bg-white border border-stone-200 font-semibold text-stone-700">Visa</span>
+          <span class="px-2.5 py-1 rounded bg-white border border-stone-200 font-semibold text-stone-700">Mastercard</span>
+          <span class="px-2.5 py-1 rounded bg-white border border-stone-200 font-semibold text-stone-700">Apple Pay</span>
+          <span class="px-2.5 py-1 rounded bg-white border border-stone-200 font-semibold text-stone-700">PayPal</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================= -->
+  <!-- MODALS & SLIDE-IN DRAWERS -->
+  <!-- ============================================================= -->
+
+  <!-- 1. SLIDE-IN SHOPPING CART DRAWER -->
+  <div id="cart-backdrop" onclick="closeCartDrawer()" class="fixed inset-0 z-50 drawer-backdrop opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  
+  <div id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#FAF7F2] z-50 shadow-2xl transform translate-x-full transition-transform duration-400 ease-out flex flex-col">
+    <!-- Header -->
+    <div class="p-6 border-b border-stone-200 flex items-center justify-between bg-white">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-stone-900"></i>
+        <h3 class="font-serif text-2xl font-medium text-stone-900">Collector Bag</h3>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-2 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-100">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Free UK Delivery Progress Bar -->
+    <div class="p-4 bg-stone-50 border-b border-stone-200 text-xs text-stone-700">
+      <div id="shipping-progress-text" class="mb-2">Add more for Complimentary UK Delivery</div>
+      <div class="w-full h-1.5 bg-stone-200 rounded-full overflow-hidden">
+        <div id="shipping-progress-bar" class="h-full bg-[#8FA387] transition-all duration-500" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="cart-empty-state" class="flex-1 flex flex-col items-center justify-center p-8 text-center">
+      <div class="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center text-stone-400 mb-4">
+        <i data-lucide="shopping-bag" class="w-8 h-8"></i>
+      </div>
+      <h4 class="font-serif text-2xl font-medium text-stone-800">Your bag is empty</h4>
+      <p class="text-xs text-stone-500 mt-2 max-w-xs font-sans">Discover original fine art paintings, limited prints, or deckled bookmarks.</p>
+      <button onclick="closeCartDrawer(); scrollToSection('originals')" class="btn-luxury-primary !py-2.5 !px-6 !text-xs mt-6">
+        Explore Originals
+      </button>
+    </div>
+
+    <!-- Items List Container -->
+    <div id="cart-items-list" class="flex-1 overflow-y-auto p-4 space-y-3">
+      <!-- Populated via app.js -->
+    </div>
+
+    <!-- Cart Footer & Checkout -->
+    <div id="cart-footer" class="p-6 bg-white border-t border-stone-200 space-y-4" style="display: none;">
+      <!-- Promo Code Input -->
+      <div class="flex gap-2">
+        <input type="text" id="promo-code-input" placeholder="Promo code (Try MISHI10)..." 
+               class="flex-1 text-xs px-4 py-2.5 rounded-full border border-stone-200 bg-stone-50 uppercase focus:outline-none focus:border-stone-800">
+        <button onclick="applyPromoCode()" class="btn-luxury-outline !py-2 !px-4 !text-xs">Apply</button>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="space-y-1.5 text-xs text-stone-600 pt-2 border-t border-stone-100">
+        <div id="cart-discount-row" class="justify-between text-emerald-700 font-semibold" style="display: none;">
+          <span>VIP Discount</span>
+          <span id="cart-discount-amount">-£0</span>
+        </div>
+        <div class="flex justify-between text-sm font-semibold text-stone-900 pt-2 border-t border-stone-200">
+          <span class="font-serif text-lg">Total</span>
+          <span id="cart-subtotal" class="font-serif text-2xl font-semibold">£0</span>
+        </div>
+      </div>
+
+      <button onclick="openCheckoutModal()" class="btn-luxury-primary w-full !py-3.5">
+        <i data-lucide="lock" class="w-4 h-4"></i> Proceed to Checkout
+      </button>
+      <p class="text-[10px] text-stone-400 text-center uppercase tracking-wider font-sans">Secure 256-bit Encrypted Checkout</p>
+    </div>
+  </div>
+
+  <!-- 2. ROOM PREVIEW SIMULATOR (AR / Wall Mockup Simulator) -->
+  <div id="room-simulator-modal" class="fixed inset-0 z-50 modal-overlay hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[90vh]">
+      
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-stone-200 flex items-center justify-between bg-[#FAF7F2]">
+        <div>
+          <span class="text-xs uppercase font-semibold tracking-widest text-[#8FA387]">Interactive Simulator</span>
+          <h3 class="font-serif text-2xl font-medium text-stone-900">View in Your Room</h3>
+        </div>
+        <button onclick="closeRoomSimulator()" class="p-2 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-6">
+        
+        <!-- The Simulated Wall & Artwork Canvas -->
+        <div id="room-wall-canvas" class="room-canvas-container room-wall-linen">
+          <!-- Ambient Wall Accessories (Sofa silhouette & plant) -->
+          <div class="absolute bottom-0 left-8 w-20 h-40 bg-stone-800/10 rounded-t-full pointer-events-none"></div>
+          <div class="absolute bottom-0 right-12 w-32 h-16 bg-stone-800/15 rounded-t-2xl pointer-events-none"></div>
+
+          <!-- The Rendered Artwork Frame -->
+          <div id="room-frame-render" class="artwork-frame-render frame-oak">
+            <img id="room-modal-artwork-img" src="" alt="Room Preview" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <!-- Simulator Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#FAF7F2] p-5 rounded-2xl border border-stone-200">
+          
+          <!-- Wall Paint Color Selector -->
+          <div>
+            <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 block mb-2">Wall Paint Tone</label>
+            <div class="flex items-center gap-3">
+              <button onclick="setRoomWallColor('linen')" data-wall="linen" class="wall-color-btn w-9 h-9 rounded-full bg-[#EFE9DE] border-2 border-white shadow-sm ring-2 ring-stone-800" title="Warm Linen"></button>
+              <button onclick="setRoomWallColor('sage')" data-wall="sage" class="wall-color-btn w-9 h-9 rounded-full bg-[#CAD5C6] border-2 border-white shadow-sm" title="Soft Sage"></button>
+              <button onclick="setRoomWallColor('blush')" data-wall="blush" class="wall-color-btn w-9 h-9 rounded-full bg-[#EAD8D4] border-2 border-white shadow-sm" title="Dusty Blush"></button>
+              <button onclick="setRoomWallColor('charcoal')" data-wall="charcoal" class="wall-color-btn w-9 h-9 rounded-full bg-[#3C3836] border-2 border-white shadow-sm" title="Gallery Charcoal"></button>
+              <button onclick="setRoomWallColor('ivory')" data-wall="ivory" class="wall-color-btn w-9 h-9 rounded-full bg-[#F8F5EE] border-2 border-white shadow-sm" title="Classic Ivory"></button>
+            </div>
+          </div>
+
+          <!-- Frame Finish Selector -->
+          <div>
+            <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 block mb-2">Frame Presentation</label>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="setRoomFrame('oak')" data-frame="oak" class="frame-style-btn text-xs px-3 py-1.5 rounded-full border border-stone-300 bg-stone-900 text-white font-medium">Natural Oak</button>
+              <button onclick="setRoomFrame('gold')" data-frame="gold" class="frame-style-btn text-xs px-3 py-1.5 rounded-full border border-stone-300 bg-white text-stone-800 font-medium">Antique Gold</button>
+              <button onclick="setRoomFrame('black')" data-frame="black" class="frame-style-btn text-xs px-3 py-1.5 rounded-full border border-stone-300 bg-white text-stone-800 font-medium">Satin Black</button>
+              <button onclick="setRoomFrame('none')" data-frame="none" class="frame-style-btn text-xs px-3 py-1.5 rounded-full border border-stone-300 bg-white text-stone-800 font-medium">Unframed Canvas</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-6 border-t border-stone-200 bg-[#FAF7F2] flex items-center justify-between">
+        <div>
+          <h4 id="room-modal-title" class="font-serif text-xl font-medium text-stone-900">Artwork</h4>
+          <span id="room-modal-size" class="text-xs text-stone-500">Dimensions</span>
+        </div>
+        <button onclick="closeRoomSimulator()" class="btn-luxury-primary !py-2.5 !px-6 !text-xs">Done</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. ARTWORK DETAIL / QUICK-VIEW MODAL -->
+  <div id="artwork-detail-modal" class="fixed inset-0 z-50 modal-overlay hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[90vh]">
+      <div class="p-4 border-b border-stone-100 flex justify-end">
+        <button onclick="closeArtworkModal()" class="p-2 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="modal-artwork-body" class="p-6 sm:p-8 overflow-y-auto">
+        <!-- Populated dynamically via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. BESPOKE COMMISSION INQUIRY MODAL -->
+  <div id="commission-modal" class="fixed inset-0 z-50 modal-overlay hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[90vh]">
+      
+      <div class="p-6 border-b border-stone-200 flex items-center justify-between bg-[#FAF7F2]">
+        <div>
+          <span class="text-xs uppercase font-semibold tracking-widest text-[#8FA387]">Bespoke Studio Inquiry</span>
+          <h3 class="font-serif text-2xl font-medium text-stone-900">Commission Your Original</h3>
+        </div>
+        <button onclick="closeCommissionModal()" class="p-2 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleCommissionSubmit(event)" class="p-6 sm:p-8 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 block mb-1">Your Full Name *</label>
+            <input type="text" id="comm-name" required placeholder="e.g. Eleanor Vance" class="w-full text-xs p-3 rounded-xl border border-stone-200 bg-stone-50 font-sans focus:outline-none focus:border-stone-800">
+          </div>
+          <div>
+            <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 block mb-1">Email Address *</label>
+            <input type="email" id="comm-email" required placeholder="eleanor@example.co.uk" class="w-full text-xs p-3 rounded-xl border border-stone-200 bg-stone-50 font-sans focus:outline-none focus:border-stone-800">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 block mb-1">Preferred Commission Tier / Size *</label>
+          <select id="comm-type-select" class="w-full text-xs p-3 rounded-xl border border-stone-200 bg-stone-50 font-sans focus:outline-none focus:border-stone-800">
+            <option value="Bespoke Statement (A4 - 21x30cm)">Bespoke Statement (A4 - 21x30cm) — from £185</option>
+            <option value="Miniature Keepsake (A5 - 15x21cm)">Miniature Keepsake (A5 - 15x21cm) — from £95</option>
+            <option value="Grand Canvas Centerpiece (A3 / 50x70cm)">Grand Canvas Centerpiece (A3 to 50x70cm) — from £340</option>
+            <option value="Custom Architectural Facade / Home Portrait">Custom Architectural Facade / Home Portrait</option>
+            <option value="Botanical Heirloom Study">Botanical Heirloom Study</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 block mb-1">Ideal Completion Timeline</label>
+          <select class="w-full text-xs p-3 rounded-xl border border-stone-200 bg-stone-50 font-sans focus:outline-none focus:border-stone-800">
+            <option value="Flexible (2-4 Weeks)">Flexible (2 - 4 Weeks)</option>
+            <option value="Upcoming Birthday / Anniversary">Specific Date (Birthday / Anniversary)</option>
+            <option value="Holiday Gift Season">Holiday Gift Season</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 block mb-1">Your Vision & Notes</label>
+          <textarea id="comm-notes" rows="4" placeholder="Tell Mishi about your subject, desired color scheme (e.g. warm blush and sage tones), or special elements..." class="w-full text-xs p-3 rounded-xl border border-stone-200 bg-stone-50 font-sans focus:outline-none focus:border-stone-800"></textarea>
+        </div>
+
+        <button type="submit" class="btn-luxury-primary w-full !py-3.5 mt-2">
+          Submit Commission Request
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 5. COMMISSION CONFIRMATION MODAL -->
+  <div id="commission-success-modal" class="fixed inset-0 z-50 modal-overlay hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl border border-stone-200">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="check" class="w-8 h-8"></i>
+      </div>
+      <h3 class="font-serif text-3xl font-medium text-stone-900 mb-2">Inquiry Received</h3>
+      <p class="text-sm text-stone-600 leading-relaxed mb-6 font-sans">
+        Thank you, <span id="conf-client-name" class="font-semibold text-stone-900"></span>! Mishi will review your notes and reply with a tailored concept proposal and initial sketches within 24-48 hours.
+      </p>
+      <button onclick="closeCommissionSuccessModal()" class="btn-luxury-primary !py-2.5 !px-6 !text-xs w-full">
+        Return to Studio
+      </button>
+    </div>
+  </div>
+
+  <!-- 6. CHECKOUT SIMULATION MODAL -->
+  <div id="checkout-modal" class="fixed inset-0 z-50 modal-overlay hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[90vh]">
+      <div class="p-6 border-b border-stone-200 flex items-center justify-between bg-[#FAF7F2]">
+        <div>
+          <span class="text-xs uppercase font-semibold tracking-widest text-[#8FA387]">Secure Checkout</span>
+          <h3 class="font-serif text-2xl font-medium text-stone-900">Complete Your Order</h3>
+        </div>
+        <button onclick="closeCheckoutModal()" class="p-2 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleCheckoutSubmit(event)" class="p-6 sm:p-8 overflow-y-auto space-y-4 text-xs font-sans">
+        <div>
+          <label class="font-semibold uppercase tracking-wider text-stone-700 block mb-1">Shipping Name *</label>
+          <input type="text" required placeholder="Eleanor Vance" class="w-full p-3 rounded-xl border border-stone-200 bg-stone-50">
+        </div>
+
+        <div>
+          <label class="font-semibold uppercase tracking-wider text-stone-700 block mb-1">Email for Tracking Details *</label>
+          <input type="email" required placeholder="eleanor@example.co.uk" class="w-full p-3 rounded-xl border border-stone-200 bg-stone-50">
+        </div>
+
+        <div>
+          <label class="font-semibold uppercase tracking-wider text-stone-700 block mb-1">Delivery Address (UK / International) *</label>
+          <input type="text" required placeholder="14 Kensington Gardens, London, W8 4PX" class="w-full p-3 rounded-xl border border-stone-200 bg-stone-50">
+        </div>
+
+        <div class="pt-4 border-t border-stone-200">
+          <div class="flex justify-between items-baseline mb-4">
+            <span class="text-sm font-semibold text-stone-800">Total Due:</span>
+            <span id="checkout-total-val" class="font-serif text-2xl font-semibold text-stone-900">£0</span>
+          </div>
+          
+          <button type="submit" class="btn-luxury-primary w-full !py-3.5 text-xs">
+            <i data-lucide="check" class="w-4 h-4"></i> Place Order with UK Tracked Dispatch
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. ORDER COMPLETED MODAL -->
+  <div id="order-completed-modal" class="fixed inset-0 z-50 modal-overlay hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl border border-stone-200">
+      <div class="w-16 h-16 rounded-full bg-[#E8C8C2]/40 text-[#C99C94] flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="sparkles" class="w-8 h-8"></i>
+      </div>
+      <h3 class="font-serif text-3xl font-medium text-stone-900 mb-2">Order Confirmed!</h3>
+      <p class="text-sm text-stone-600 leading-relaxed mb-6 font-sans">
+        Thank you for acquiring a piece of Mishi's artwork. Your order is being carefully packaged in our UK studio and will be dispatched with tracked delivery.
+      </p>
+      <button onclick="closeOrderCompletedModal()" class="btn-luxury-primary !py-2.5 !px-6 !text-xs w-full">
+        Continue Exploring
+      </button>
+    </div>
+  </div>
+
+  <!-- 8. SEARCH MODAL -->
+  <div id="search-modal" class="fixed inset-0 z-50 modal-overlay hidden items-start justify-center pt-20 p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-stone-200 flex flex-col">
+      <div class="p-4 border-b border-stone-200 flex items-center gap-3">
+        <i data-lucide="search" class="w-5 h-5 text-stone-400 ml-2"></i>
+        <input type="text" id="search-input" oninput="handleSearchInput(this.value)" placeholder="Search originals, prints, bookmarks, culture, botanicals..." 
+               class="flex-1 text-sm bg-transparent border-none focus:outline-none font-sans py-2">
+        <button onclick="closeSearchModal()" class="p-2 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="search-results" class="max-h-96 overflow-y-auto p-4 space-y-2">
+        <!-- Live search results rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. ART CARE GUIDE MODAL -->
+  <div id="art-care-modal" class="fixed inset-0 z-50 modal-overlay hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-stone-200 flex flex-col max-h-[90vh]">
+      <div class="p-6 border-b border-stone-200 flex items-center justify-between bg-[#FAF7F2]">
+        <div>
+          <span class="text-xs uppercase font-semibold tracking-widest text-[#8FA387]">Studio Preservation Guide</span>
+          <h3 class="font-serif text-2xl font-medium text-stone-900">How to Care for Your Art</h3>
+        </div>
+        <button onclick="closeArtCareModal()" class="p-2 text-stone-400 hover:text-stone-900 rounded-full hover:bg-stone-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 sm:p-8 overflow-y-auto space-y-6 text-sm text-stone-600 font-sans leading-relaxed">
+        <div class="flex gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#DECFC0] flex items-center justify-center text-stone-800 font-bold shrink-0">1</div>
+          <div>
+            <h4 class="font-serif text-xl font-medium text-stone-900 mb-1">Framing & Glazing</h4>
+            <p>For fine art cotton rag prints and watercolor originals, always use acid-free mounting tape and archival matting. We recommend UV-filtering Artglass to preserve pigment brilliance for generations.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#DECFC0] flex items-center justify-center text-stone-800 font-bold shrink-0">2</div>
+          <div>
+            <h4 class="font-serif text-xl font-medium text-stone-900 mb-1">Placement & Lighting</h4>
+            <p>Avoid placing works in direct prolonged sunlight, above active radiators, or in high-humidity areas like unventilated bathrooms.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#DECFC0] flex items-center justify-center text-stone-800 font-bold shrink-0">3</div>
+          <div>
+            <h4 class="font-serif text-xl font-medium text-stone-900 mb-1">Handling Deckled Edges</h4>
+            <p>When handling original deckled-edge paper or silk tassel bookmarks, hold them by the edges using clean, dry hands to protect the tactile fibers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-stone-200 bg-[#FAF7F2] text-right">
+        <button onclick="closeArtCareModal()" class="btn-luxury-primary !py-2 !px-5 !text-xs">Understood</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inline Script Helper for Lucide Icons initialization -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
