@@ -1,4 +1,4 @@
-﻿// Mishi''s Artwork - Curated Art Catalog Data
+// Mishi's Artwork - Curated Art Catalog Data
 const artCatalog = {
   originals: [
     {

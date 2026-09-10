@@ -24,12 +24,22 @@ if (state.discountCode.toUpperCase() === 'MISHI10') {
 
 // Helpers for Currency Formatting
 function formatPrice(amountGBP) {
-  const rateInfo = currencyRates[state.currency] || currencyRates.GBP;
+  if (!amountGBP && amountGBP !== 0) return '';
+  const currentCurr = (window.state && state.currency) ? state.currency : 'GBP';
+  const rateInfo = (window.currencyRates && currencyRates[currentCurr]) ? currencyRates[currentCurr] : currencyRates.GBP;
   const converted = Math.round(amountGBP * rateInfo.rate);
   
-  if (state.currency === 'GBP') {
+  if (currentCurr === 'GBP') {
     return `£${converted.toLocaleString()}`;
-  } else if (state.currency === 'USD') {
+  } else if (currentCurr === 'USD') {
+    return `$${converted.toLocaleString()}`;
+  } else if (currentCurr === 'EUR') {
+    return `€${converted.toLocaleString()}`;
+  } else if (currentCurr === 'PKR') {
+    return `Rs ${converted.toLocaleString()}`;
+  }
+  return `£${converted.toLocaleString()}`;
+} else if (state.currency === 'USD') {
     return `$${converted.toLocaleString()}`;
   } else if (state.currency === 'EUR') {
     return `€${converted.toLocaleString()}`;
@@ -65,7 +75,7 @@ function showToast(message, icon = 'check') {
     <span>${message}</span>
   `;
   container.appendChild(toast);
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
   
   setTimeout(() => {
     toast.style.opacity = '0';
@@ -134,35 +144,41 @@ function toggleWishlist(artworkId) {
 }
 
 function setCurrency(curr) {
-  if (currencyRates[curr]) {
-    state.currency = curr;
-    document.querySelectorAll('.currency-select-btn').forEach(btn => {
-      const isCurr = btn.dataset.currency === curr;
-      btn.classList.toggle('bg-stone-800', isCurr);
-      btn.classList.toggle('text-white', isCurr);
-      btn.classList.toggle('text-stone-400', !isCurr);
-    });
-    
-    document.querySelectorAll('.currency-drawer-btn').forEach(btn => {
-      const isCurr = btn.dataset.currencyDrawer === curr;
-      if (isCurr) {
-        btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-800 rounded text-white font-bold text-[11px] transition-all';
-      } else {
-        btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all';
-      }
-    });
-    
-    renderOriginals();
-    renderPrints();
-    renderBookmarks();
-    renderCommissions();
-    renderCartDrawer();
-    if (state.currentModalArtwork) {
-      renderModalDetails(state.currentModalArtwork);
+  if (!window.currencyRates || !currencyRates[curr]) return;
+  state.currency = curr;
+  try { localStorage.setItem('mishi_currency', curr); } catch (e) {}
+
+  document.querySelectorAll('.currency-select-btn').forEach(btn => {
+    const isCurr = btn.dataset.currency === curr;
+    if (isCurr) {
+      btn.className = 'currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-stone-800 text-white transition-all shadow-sm';
+    } else {
+      btn.className = 'currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-stone-400 hover:text-white transition-all';
     }
-    showToast(`Currency: ${currencyRates[curr].name}`);
+  });
+  
+  document.querySelectorAll('.currency-drawer-btn').forEach(btn => {
+    const isCurr = btn.dataset.currencyDrawer === curr;
+    if (isCurr) {
+      btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-800 rounded text-white font-bold text-[11px] transition-all shadow-sm';
+    } else {
+      btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all';
+    }
+  });
+  
+  try { renderOriginals(); } catch (err) { console.error('renderOriginals err:', err); }
+  try { renderPrints(); } catch (err) { console.error('renderPrints err:', err); }
+  try { renderBookmarks(); } catch (err) { console.error('renderBookmarks err:', err); }
+  try { renderCommissions(); } catch (err) { console.error('renderCommissions err:', err); }
+  try { renderCartDrawer(); } catch (err) { console.error('renderCartDrawer err:', err); }
+  if (state.currentModalArtwork) {
+    try { renderModalDetails(state.currentModalArtwork); } catch (err) { console.error('renderModalDetails err:', err); }
   }
+  try { showToast(`Currency: ${currencyRates[curr].name}`); } catch (err) {}
 }
+
+window.setCurrency = setCurrency;
+window.formatPrice = formatPrice;
 
 // -------------------------------------------------------------
 // RENDERERS
@@ -261,7 +277,7 @@ function renderOriginals() {
     `;
   }).join('');
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 // 2. Render Art Prints Collection
@@ -330,7 +346,7 @@ function renderPrints() {
     `;
   }).join('');
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 // 3. Render Bookmarks Section
@@ -389,7 +405,7 @@ function renderBookmarks() {
     `;
   }).join('');
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 // 4. Render Commission Tiers
@@ -434,7 +450,7 @@ function renderCommissions() {
     `;
   }).join('');
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 // 5. Render Reviews
@@ -460,7 +476,7 @@ function renderReviews() {
     </div>
   `).join('');
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 // 6. Render Instagram Grid
@@ -489,7 +505,7 @@ function renderInstagram() {
     </a>
   `).join('');
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 // -------------------------------------------------------------
@@ -577,7 +593,7 @@ function renderCartDrawer() {
     </div>
   `).join('');
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 function updateCartQuantity(index, delta) {
@@ -665,7 +681,7 @@ function openRoomSimulator(artworkId, type) {
     modal.classList.remove('hidden');
     modal.classList.add('flex');
   }
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 function closeRoomSimulator() {
@@ -864,7 +880,7 @@ function renderModalDetails(art) {
     </div>
   `;
 
-  lucide.createIcons();
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 }
 
 function selectModalPrintSize(sizeStr, priceGBP) {
@@ -1170,13 +1186,18 @@ function handleNewsletter(e) {
 // -------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderOriginals();
-  renderPrints();
-  renderBookmarks();
-  renderCommissions();
-  renderReviews();
-  renderInstagram();
-  updateCartBadge();
-  updateWishlistBadge();
-  lucide.createIcons();
+  const savedCurrency = localStorage.getItem('mishi_currency');
+  if (savedCurrency && currencyRates[savedCurrency]) {
+    setCurrency(savedCurrency);
+  } else {
+    renderOriginals();
+    renderPrints();
+    renderBookmarks();
+    renderCommissions();
+    renderReviews();
+    renderInstagram();
+    updateCartBadge();
+    updateWishlistBadge();
+  }
+  if (window.lucide && lucide.createIcons) { try { lucide.createIcons(); } catch(e){} }
 });
