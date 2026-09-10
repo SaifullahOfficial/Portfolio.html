@@ -389,7 +389,8 @@ const artCatalog = {
 
 // Currency conversion rates (relative to GBP)
 const currencyRates = {
-  GBP: { symbol: "£", rate: 1.0, code: "GBP", name: "GBP (£)" },
-  USD: { symbol: "$", rate: 1.28, code: "USD", name: "USD ($)" },
-  EUR: { symbol: "€", rate: 1.18, code: "EUR", name: "EUR (€)" }
+  GBP: { symbol: "£", rate: 1.0, code: "GBP", name: "Pound (£)" },
+  USD: { symbol: "$", rate: 1.30, code: "USD", name: "Dollar ($)" },
+  EUR: { symbol: "€", rate: 1.17, code: "EUR", name: "Euro (€)" },
+  PKR: { symbol: "Rs", rate: 365.0, code: "PKR", name: "PKR (Rs)" }
 };

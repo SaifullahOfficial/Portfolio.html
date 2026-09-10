@@ -592,6 +592,7 @@ h1, h2, h3, h4, .serif-title {
           <button onclick="setCurrency('GBP')" data-currency="GBP" class="currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-stone-800 text-white transition-all">£</button>
           <button onclick="setCurrency('USD')" data-currency="USD" class="currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-stone-400 hover:text-white transition-all">$</button>
           <button onclick="setCurrency('EUR')" data-currency="EUR" class="currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-stone-400 hover:text-white transition-all">€</button>
+          <button onclick="setCurrency('PKR')" data-currency="PKR" class="currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-stone-400 hover:text-white transition-all">PKR</button>
         </div>
       </div>
     </div>
@@ -744,10 +745,11 @@ h1, h2, h3, h4, .serif-title {
     <div class="pt-4 border-t border-stone-200 space-y-3">
       <div class="flex items-center justify-between text-xs text-stone-600">
         <span>Currency</span>
-        <div class="flex gap-1">
-          <button onclick="setCurrency('GBP')" class="px-2.5 py-1 bg-stone-200 rounded text-stone-900 font-bold">£ GBP</button>
-          <button onclick="setCurrency('USD')" class="px-2.5 py-1 bg-stone-100 rounded text-stone-700">USD</button>
-          <button onclick="setCurrency('EUR')" class="px-2.5 py-1 bg-stone-100 rounded text-stone-700">EUR</button>
+        <div class="flex flex-wrap gap-1">
+          <button onclick="setCurrency('GBP')" data-currency-drawer="GBP" class="currency-drawer-btn px-2.5 py-1 bg-stone-800 rounded text-white font-bold text-[11px] transition-all">£ GBP</button>
+          <button onclick="setCurrency('USD')" data-currency-drawer="USD" class="currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all">$ USD</button>
+          <button onclick="setCurrency('EUR')" data-currency-drawer="EUR" class="currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all">€ EUR</button>
+          <button onclick="setCurrency('PKR')" data-currency-drawer="PKR" class="currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all">PKR (Rs)</button>
         </div>
       </div>
       <p class="text-[10px] text-stone-400 text-center font-sans">mishisartwork.com • United Kingdom</p>
@@ -1979,9 +1981,10 @@ const artCatalog = {
 
 // Currency conversion rates (relative to GBP)
 const currencyRates = {
-  GBP: { symbol: "£", rate: 1.0, code: "GBP", name: "GBP (£)" },
-  USD: { symbol: "$", rate: 1.28, code: "USD", name: "USD ($)" },
-  EUR: { symbol: "€", rate: 1.18, code: "EUR", name: "EUR (€)" }
+  GBP: { symbol: "£", rate: 1.0, code: "GBP", name: "Pound (£)" },
+  USD: { symbol: "$", rate: 1.30, code: "USD", name: "Dollar ($)" },
+  EUR: { symbol: "€", rate: 1.17, code: "EUR", name: "Euro (€)" },
+  PKR: { symbol: "Rs", rate: 365.0, code: "PKR", name: "PKR (Rs)" }
 };
 
   </script>
@@ -2013,11 +2016,19 @@ if (state.discountCode.toUpperCase() === 'MISHI10') {
 // Helpers for Currency Formatting
 function formatPrice(amountGBP) {
   const rateInfo = currencyRates[state.currency] || currencyRates.GBP;
-  const converted = amountGBP * rateInfo.rate;
+  const converted = Math.round(amountGBP * rateInfo.rate);
   
   if (state.currency === 'GBP') {
-    return `£${Math.round(converted)}`;
+    return `£${converted.toLocaleString()}`;
   } else if (state.currency === 'USD') {
+    return `$${converted.toLocaleString()}`;
+  } else if (state.currency === 'EUR') {
+    return `€${converted.toLocaleString()}`;
+  } else if (state.currency === 'PKR') {
+    return `Rs ${converted.toLocaleString()}`;
+  }
+  return `£${converted.toLocaleString()}`;
+} else if (state.currency === 'USD') {
     return `$${Math.round(converted)}`;
   } else if (state.currency === 'EUR') {
     return `€${Math.round(converted)}`;
@@ -2115,6 +2126,15 @@ function setCurrency(curr) {
       btn.classList.toggle('text-stone-400', !isCurr);
     });
     
+    document.querySelectorAll('.currency-drawer-btn').forEach(btn => {
+      const isCurr = btn.dataset.currencyDrawer === curr;
+      if (isCurr) {
+        btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-800 rounded text-white font-bold text-[11px] transition-all';
+      } else {
+        btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all';
+      }
+    });
+    
     renderOriginals();
     renderPrints();
     renderBookmarks();
@@ -2123,7 +2143,7 @@ function setCurrency(curr) {
     if (state.currentModalArtwork) {
       renderModalDetails(state.currentModalArtwork);
     }
-    showToast(`Currency: ${curr}`);
+    showToast(`Currency: ${currencyRates[curr].name}`);
   }
 }
 

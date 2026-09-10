@@ -25,11 +25,27 @@ if (state.discountCode.toUpperCase() === 'MISHI10') {
 // Helpers for Currency Formatting
 function formatPrice(amountGBP) {
   const rateInfo = currencyRates[state.currency] || currencyRates.GBP;
-  const converted = amountGBP * rateInfo.rate;
+  const converted = Math.round(amountGBP * rateInfo.rate);
   
   if (state.currency === 'GBP') {
-    return `£${Math.round(converted)}`;
+    return `£${converted.toLocaleString()}`;
   } else if (state.currency === 'USD') {
+    return `$${converted.toLocaleString()}`;
+  } else if (state.currency === 'EUR') {
+    return `€${converted.toLocaleString()}`;
+  } else if (state.currency === 'PKR') {
+    return `Rs ${converted.toLocaleString()}`;
+  }
+  return `£${converted.toLocaleString()}`;
+} else if (state.currency === 'USD') {
+    return `$${converted.toLocaleString()}`;
+  } else if (state.currency === 'EUR') {
+    return `€${converted.toLocaleString()}`;
+  } else if (state.currency === 'PKR') {
+    return `Rs ${converted.toLocaleString()}`;
+  }
+  return `£${converted.toLocaleString()}`;
+} else if (state.currency === 'USD') {
     return `$${Math.round(converted)}`;
   } else if (state.currency === 'EUR') {
     return `€${Math.round(converted)}`;
@@ -127,6 +143,15 @@ function setCurrency(curr) {
       btn.classList.toggle('text-stone-400', !isCurr);
     });
     
+    document.querySelectorAll('.currency-drawer-btn').forEach(btn => {
+      const isCurr = btn.dataset.currencyDrawer === curr;
+      if (isCurr) {
+        btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-800 rounded text-white font-bold text-[11px] transition-all';
+      } else {
+        btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all';
+      }
+    });
+    
     renderOriginals();
     renderPrints();
     renderBookmarks();
@@ -135,7 +160,7 @@ function setCurrency(curr) {
     if (state.currentModalArtwork) {
       renderModalDetails(state.currentModalArtwork);
     }
-    showToast(`Currency: ${curr}`);
+    showToast(`Currency: ${currencyRates[curr].name}`);
   }
 }
 
