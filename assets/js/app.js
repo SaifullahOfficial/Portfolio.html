@@ -76,48 +76,125 @@ function formatPrice(amountGBP) {
   return `£${converted.toLocaleString()}`;
 }
 
+// -------------------------------------------------------------
+// CURRENCY FORMATTING & REFRESH ENGINE
+// -------------------------------------------------------------
+window.currencyRates = {
+  GBP: { symbol: "£", rate: 1.0, code: "GBP", name: "Pound (£)" },
+  USD: { symbol: "$", rate: 1.30, code: "USD", name: "Dollar ($)" },
+  EUR: { symbol: "€", rate: 1.17, code: "EUR", name: "Euro (€)" },
+  PKR: { symbol: "Rs", rate: 365.0, code: "PKR", name: "PKR (Rs)" }
+};
+
+function formatPrice(amountGBP) {
+  if (!amountGBP && amountGBP !== 0) return '';
+  const currentCurr = (window.state && state.currency) ? state.currency : 'GBP';
+  const rateInfo = (window.currencyRates && currencyRates[currentCurr]) ? currencyRates[currentCurr] : currencyRates.GBP;
+  const converted = Math.round(amountGBP * rateInfo.rate);
+  
+  if (currentCurr === 'GBP') {
+    return `£${converted.toLocaleString()}`;
+  } else if (currentCurr === 'USD') {
+    return `$${converted.toLocaleString()}`;
+  } else if (currentCurr === 'EUR') {
+    return `€${converted.toLocaleString()}`;
+  } else if (currentCurr === 'PKR') {
+    return `Rs ${converted.toLocaleString()}`;
+  }
+  return `£${converted.toLocaleString()}`;
+}
+
+function refreshAllPrices() {
+  const current = (window.state && state.currency) ? state.currency : 'GBP';
+  console.log("Executing refreshAllPrices() for currency:", current);
+
+  // 1. Home Grids
+  try { renderOriginals('originals-grid'); } catch (e) { console.warn(e); }
+  try { renderPrints('prints-grid'); } catch (e) { console.warn(e); }
+  try { renderBookmarks('bookmarks-grid'); } catch (e) { console.warn(e); }
+  try { renderCommissions('commissions-tiers-grid'); } catch (e) { console.warn(e); }
+
+  // 2. Category Page Grids
+  try { renderOriginals('category-originals-grid'); } catch (e) { console.warn(e); }
+  try { renderPrints('category-prints-grid'); } catch (e) { console.warn(e); }
+  try { renderBookmarks('category-bookmarks-grid'); } catch (e) { console.warn(e); }
+  try { renderCommissions('category-commissions-grid'); } catch (e) { console.warn(e); }
+
+  // 3. Product Detail Page (PDP)
+  if (state.pdpArtwork) {
+    const pdpView = document.getElementById('view-pdp');
+    if (pdpView && !pdpView.classList.contains('hidden')) {
+      try { showPDPView(state.pdpArtwork.id); } catch (e) { console.warn(e); }
+    }
+  }
+
+  // 4. Cart Drawer
+  try { renderCartDrawer(); } catch (e) { console.warn(e); }
+
+  // 5. Checkout Modal Total
+  const checkoutTotalEl = document.getElementById('checkout-total-val');
+  if (checkoutTotalEl) {
+    const subtotalGBP = state.cart.reduce((sum, item) => sum + (item.priceGBP * item.quantity), 0);
+    const discountGBP = subtotalGBP * state.discountPercent;
+    checkoutTotalEl.textContent = formatPrice(subtotalGBP - discountGBP);
+  }
+
+  // 6. Commission Modal Dropdown Options
+  ['comm-type-select', 'comm-type-select-modal'].forEach(selId => {
+    const sel = document.getElementById(selId);
+    if (sel && sel.options && sel.options.length >= 3) {
+      sel.options[0].text = `Miniature Keepsake (A5) — from ${formatPrice(95)}`;
+      sel.options[1].text = `Bespoke Statement (A4) — from ${formatPrice(185)}`;
+      sel.options[2].text = `Grand Canvas Centerpiece — from ${formatPrice(340)}`;
+    }
+  });
+
+  if (window.lucide && lucide.createIcons) {
+    try { lucide.createIcons(); } catch (e) {}
+  }
+}
+
 function setCurrency(curr, showNotification = true) {
-  if (!window.currencyRates || !currencyRates[curr]) return;
+  console.log("setCurrency clicked:", curr);
+  if (!window.currencyRates || !currencyRates[curr]) {
+    console.warn("Invalid currency:", curr);
+    return;
+  }
+
   state.currency = curr;
   try { localStorage.setItem('mishi_currency', curr); } catch (e) {}
 
+  // Update top announcement bar button styles
   document.querySelectorAll('.currency-select-btn').forEach(btn => {
     const isCurr = btn.dataset.currency === curr;
     if (isCurr) {
-      btn.className = 'currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-stone-800 text-white transition-all shadow-sm';
+      btn.className = 'currency-select-btn px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold bg-stone-800 text-white transition-all shadow-sm ring-1 ring-white/20';
     } else {
-      btn.className = 'currency-select-btn px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-stone-400 hover:text-white transition-all';
+      btn.className = 'currency-select-btn px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium text-stone-400 hover:text-white transition-all';
     }
   });
   
+  // Update mobile drawer button styles
   document.querySelectorAll('.currency-drawer-btn').forEach(btn => {
     const isCurr = btn.dataset.currencyDrawer === curr;
     if (isCurr) {
-      btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-800 rounded text-white font-bold text-[11px] transition-all shadow-sm';
+      btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-800 rounded text-white font-bold text-[11px] transition-all shadow-sm ring-1 ring-stone-900';
     } else {
       btn.className = 'currency-drawer-btn px-2.5 py-1 bg-stone-100 hover:bg-stone-200 rounded text-stone-700 text-[11px] transition-all';
     }
   });
-  
-  // Re-render whichever view is active
-  try { renderOriginals(); } catch (err) {}
-  try { renderPrints(); } catch (err) {}
-  try { renderBookmarks(); } catch (err) {}
-  try { renderCommissions(); } catch (err) {}
-  try { renderCartDrawer(); } catch (err) {}
-  if (state.pdpArtwork) {
-    try { updatePdpPrice(); } catch (err) {}
-  }
-  if (state.currentModalArtwork) {
-    try { renderModalDetails(state.currentModalArtwork); } catch (err) {}
-  }
+
+  // Execute full price conversion across the entire website
+  refreshAllPrices();
+
   if (showNotification) {
-    try { showToast(`Currency: ${currencyRates[curr].name}`); } catch (err) {}
+    showToast(`Currency updated to ${currencyRates[curr].name}`);
   }
 }
 
 window.setCurrency = setCurrency;
 window.formatPrice = formatPrice;
+window.refreshAllPrices = refreshAllPrices;
 
 // -------------------------------------------------------------
 // SPA CLIENT-SIDE ROUTER
@@ -1540,6 +1617,25 @@ function showToast(message) {
 function initApp() {
   console.log("Initializing Mishi's Artwork App...");
   
+  // Attach direct click event listeners to currency buttons
+  document.querySelectorAll('.currency-select-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const c = btn.dataset.currency;
+      if (c) setCurrency(c);
+    });
+  });
+
+  document.querySelectorAll('.currency-drawer-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const c = btn.dataset.currencyDrawer;
+      if (c) setCurrency(c);
+    });
+  });
+
   // Set default or saved currency
   let savedCurrency = null;
   try { savedCurrency = localStorage.getItem('mishi_currency'); } catch (e) {}
