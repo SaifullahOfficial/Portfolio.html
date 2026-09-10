@@ -188,7 +188,7 @@ function setCurrency(curr, showNotification = true) {
   refreshAllPrices();
 
   if (showNotification) {
-    showToast(`Currency updated to ${currencyRates[curr].name}`);
+    showToast(`Currency: ${currencyRates[curr].name}`, 1300);
   }
 }
 
@@ -1594,21 +1594,28 @@ function handleNewsletter(event) {
   }
 }
 
-function showToast(message) {
+let activeToastTimeout = null;
+function showToast(message, duration = 1300) {
   const container = document.getElementById('toast-container');
   if (!container) return;
+
+  // Ensure ONLY ONE notification is visible at any time
+  container.innerHTML = '';
+  if (activeToastTimeout) clearTimeout(activeToastTimeout);
 
   const toast = document.createElement('div');
   toast.className = 'toast-message';
   toast.innerHTML = `<span>${message}</span>`;
   container.appendChild(toast);
 
-  setTimeout(() => {
+  activeToastTimeout = setTimeout(() => {
     toast.style.opacity = '0';
-    toast.style.transform = 'translateY(10px)';
-    toast.style.transition = 'all 0.3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, 2800);
+    toast.style.transform = 'translateY(6px)';
+    toast.style.transition = 'all 0.25s ease';
+    setTimeout(() => {
+      if (toast.parentNode) toast.remove();
+    }, 250);
+  }, duration);
 }
 
 // -------------------------------------------------------------
@@ -1617,24 +1624,7 @@ function showToast(message) {
 function initApp() {
   console.log("Initializing Mishi's Artwork App...");
   
-  // Attach direct click event listeners to currency buttons
-  document.querySelectorAll('.currency-select-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const c = btn.dataset.currency;
-      if (c) setCurrency(c);
-    });
-  });
-
-  document.querySelectorAll('.currency-drawer-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const c = btn.dataset.currencyDrawer;
-      if (c) setCurrency(c);
-    });
-  });
+// Single event handling via inline onclick
 
   // Set default or saved currency
   let savedCurrency = null;
